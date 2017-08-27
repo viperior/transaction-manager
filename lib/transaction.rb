@@ -61,8 +61,19 @@ class Transaction
 
   def write_to_database
     debug
-    db_session = SQLite3Session.new('finance')
-    query = "INSERT INTO 'transaction' (series_id, date, amount, label, type, budget_category) VALUES (#{series_id_db_value}, '#{date_db_value}', #{@amount}, '#{@label}', '#{@type}', '#{@budget_category}');"
+    config = TransactionManagerConfig.new
+    db_session = SQLite3Session.new(config.db_name)
+    query = "
+      INSERT INTO 'transaction'
+      (series_id, date, amount, label, type, budget_category)
+      VALUES (
+        #{series_id_db_value},
+        '#{date_db_value}',
+        #{@amount},
+        '#{@label}',
+        '#{@type}',
+        '#{@budget_category}');
+      "
     db_session.execute_query(query)
   end
 end

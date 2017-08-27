@@ -17,7 +17,8 @@ class RepeatingTransaction < Transaction
     # Create series ID
     # Query database to determine if any series are defined, and if so, what the highest ID is
     query = "SELECT COUNT(*) AS series_count FROM 'transaction' WHERE series_id IS NOT NULL;"
-    db_session = SQLite3Session.new('finance')
+    config = TransactionManagerConfig.new
+    db_session = SQLite3Session.new(config.db_name)
     db_session.execute_query(query)
     result_hash = db_session.result_hash
     series_count = result_hash.keys[0]['series_count'].to_i
@@ -27,7 +28,7 @@ class RepeatingTransaction < Transaction
     if( series_count > 0 )
       # Detect max series_id
       query = "SELECT MAX(series_id) AS max_series_id FROM 'transaction';"
-      db_session = SQLite3Session.new('finance')
+      db_session = SQLite3Session.new(config.db_name)
       db_session.execute_query(query)
       result_hash = db_session.result_hash
       max_series_id = result_hash.keys[0]['max_series_id'].to_i
