@@ -1,5 +1,13 @@
 def all_ruby_files_in_directory(directory)
-  return Dir[directory + '*.rb'] # Return array of ruby file paths
+  ruby_file_paths = Dir[directory + '*.rb'] # Return array of ruby file paths
+
+  ignore_files = [
+    directory + 'transaction-manager-config-sample.rb'
+  ]
+
+  ruby_file_paths -= ignore_files
+
+  return ruby_file_paths
 end
 
 def include_libraries

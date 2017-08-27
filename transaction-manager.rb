@@ -3,7 +3,8 @@ require 'sqlite3'
 require_relative 'lib/includes.rb'
 
 def create_database
-  db_session = SQLite3Session.new( config('db_name') )
+  config = TransactionManagerConfig.new
+  db_session = SQLite3Session.new(config.db_name)
   db_session.create_db
 
   table_name = 'transaction'
